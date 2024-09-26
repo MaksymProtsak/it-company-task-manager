@@ -56,7 +56,7 @@ ROOT_URLCONF = 'it_company_task_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -108,7 +108,7 @@ AUTH_USER_MODEL = "task_manager.Worker"
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'KIEV'
+TIME_ZONE = 'Europe/KIEV'
 
 USE_I18N = True
 
