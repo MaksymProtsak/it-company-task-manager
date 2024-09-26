@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Home page</title>
-</head>
-<body>
-  <H1>Task manager home page.</H1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+  <H1>Task manager home page</H1>
+  <p>Welcome to Best task manager ever!</p>
+  <h2>Dynamic content</h2>
+  <p>The task manager has the following record counts:</p>
+  <ul>
+    <li><strong>Tasks:</strong> {{ num_tasks }}</li>
+    <li><strong>Task types:</strong> {{ num_task_types }}</li>
+    <li><strong>Workers:</strong> {{ num_workers }}</li>
+    <li><strong>Positions:</strong> {{ num_positions }}</li>
+  </ul>
+
+  <p>You have visited this page
+    {{ num_visits }} time{{ num_visits|pluralize }}.
+  </p>
+{% endblock %}
