@@ -1,11 +1,17 @@
 from django.urls import path
 from .views import (
     index,
+    PositionListView,
 )
-from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path("", index, name="index"),
-] + debug_toolbar_urls()
+    path("tasks/", index, name="tasks-list"),
+    path("task-types/", index, name="task-types-list"),
+    path("positions/", PositionListView.as_view(), name="positions-list"),
+    path("positions/create/", PositionListView.as_view(), name="position-create"),  # Need to change view
+    path("positions/<int:pk>/update/", PositionListView.as_view(), name="position-update"),  # Need to change view
+    path("positions/<int:pk>/delete/", PositionListView.as_view(), name="position-delete"),  # Need to change view
+]
 
 app_name = "task_manager"
