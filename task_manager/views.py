@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
+from django.urls import reverse_lazy
 
 from .models import Worker, Task, TaskType, Position
 
@@ -34,3 +35,9 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "position_list"
     template_name = "task_manager/position_list.html"
     paginate_by = 5
+
+
+class PositionCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Position
+    fields = "__all__"
+    success_url = reverse_lazy("task_manager:positions-list")
