@@ -5,5 +5,5 @@ task_manager/__pycache__/
 it_company_task_manager/__pycache__/
 task_manager/migrations/__pycache__/
 task_manager/templatetags/__pycache__/
-it_company_task_manager/__pycache__/settings.cpython-312.pyc
-it_company_task_manager/__pycache__/urls.cpython-312.pyc
+__pycache__/
+*.pyc
