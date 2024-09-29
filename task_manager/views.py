@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
 
+from .forms import PositionSearchForm
 from .models import Worker, Task, TaskType, Position
 
 
@@ -36,6 +37,23 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
     template_name = "task_manager/position_list.html"
     paginate_by = 5
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PositionListView, self).get_context_data(**kwargs)
+        position = self.request.GET.get("position", "")
+        context["search_form"] = PositionSearchForm(
+            initial={"position": position}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Position.objects.all()
+        form = PositionSearchForm(self.request.GET)
+        if form.is_valid() and form.data.get(key="position") is not None:
+            return queryset.filter(
+                name__icontains=self.request.GET.get("position")
+            )
+        return queryset
+
 
 class PositionCreateView(LoginRequiredMixin, generic.CreateView):
     model = Position
@@ -52,3 +70,5 @@ class PositionUpdateView(LoginRequiredMixin, generic.UpdateView):
 class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Position
     success_url = reverse_lazy("task_manager:positions-list")
+
+
