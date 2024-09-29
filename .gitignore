@@ -1,4 +1,10 @@
 .idea
 .venv
 db.sqlite3
-**__pycache__
+it_company_task_manager/__pycache__/
+task_manager/__pycache__/
+task_manager/migrations/__pycache__/
+task_manager/templatetags/__pycache__/
+
+
+
