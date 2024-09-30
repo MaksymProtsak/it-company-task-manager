@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
 
-from .forms import PositionSearchForm
+from .forms import PositionSearchForm, TaskTypeSearchForm
 from .models import Worker, Task, TaskType, Position
 
 
@@ -72,3 +72,55 @@ class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("task_manager:positions-list")
 
 
+class TaskTypeListView(LoginRequiredMixin, generic.ListView):
+    model = TaskType
+    context_object_name = "task_type_list"
+    template_name = "task_manager/task_type_list.html"
+    paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TaskTypeListView, self).get_context_data(**kwargs)
+        task_type = self.request.GET.get("task_type", "")
+        context["search_form"] = TaskTypeSearchForm(
+            initial={"task_type": task_type}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = TaskType.objects.all()
+        form = TaskTypeSearchForm(self.request.GET)
+        if form.is_valid() and form.data.get(key="task_type") is not None:
+            return queryset.filter(
+                name__icontains=self.request.GET.get("task_type")
+            )
+        return queryset
+
+
+class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = TaskType
+    fields = "__all__"
+    success_url = reverse_lazy("task_manager:task-types-list")
+
+
+class TaskTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = TaskType
+    fields = "__all__"
+    success_url = reverse_lazy("task_manager:task-types-list")
+
+
+class TaskTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = TaskType
+    success_url = reverse_lazy("task_manager:task-types-list")
+
+
+class TaskListView(LoginRequiredMixin, generic.ListView):
+    model = Task
+    context_object_name = "task_list"
+    template_name = "task_manager/task_list.html"
+    paginate_by = 5
+
+
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Task
+    fields = "__all__"
+    success_url = reverse_lazy("task_manager:task-list")
