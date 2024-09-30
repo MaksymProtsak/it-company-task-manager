@@ -10,3 +10,14 @@ class PositionSearchForm(forms.Form):
             attrs={"placeholder": "Search position"}
         )
     )
+
+
+class TaskTypeSearchForm(forms.Form):
+    task_type = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search task type"}
+        )
+    )
