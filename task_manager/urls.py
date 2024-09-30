@@ -17,7 +17,7 @@ urlpatterns = [
     path("", index, name="index"),
 
     path("tasks/", TaskListView.as_view(), name="tasks-list"),
-    path("task/create/", TaskCreateView.as_view(), name="task-create"),
+    path("tasks/create/", TaskCreateView.as_view(), name="task-create"),
 
     path("task-types/", TaskTypeListView.as_view(), name="task-types-list"),
     path("task-types/create/", TaskTypeCreateView.as_view(), name="task-type-create"),
