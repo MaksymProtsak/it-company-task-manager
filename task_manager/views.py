@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
 
-from .forms import PositionSearchForm, TaskTypeSearchForm, TaskForm
+from .forms import PositionSearchForm, TaskTypeSearchForm, TaskForm, TaskSearchForm
 from .models import Worker, Task, TaskType, Position
 
 
@@ -118,6 +118,23 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "task_list"
     template_name = "task_manager/task_list.html"
     paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TaskListView, self).get_context_data(**kwargs)
+        task = self.request.GET.get("task", "")
+        context["search_form"] = TaskSearchForm(
+            initial={"task": task}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Task.objects.all()
+        form = TaskSearchForm(self.request.GET)
+        if form.is_valid() and form.data.get(key="task") is not None:
+            return queryset.filter(
+                name__icontains=self.request.GET.get("task")
+            )
+        return queryset
 
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
