@@ -1,5 +1,7 @@
 from django import forms
 
+from task_manager.models import Task
+
 
 class PositionSearchForm(forms.Form):
     position = forms.CharField(
@@ -21,3 +23,21 @@ class TaskTypeSearchForm(forms.Form):
             attrs={"placeholder": "Search task type"}
         )
     )
+
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = '__all__'
+        widgets = {
+            "deadline": forms.DateInput(
+                attrs={
+                    "type": "date",
+                }
+            ),
+            "name": forms.TextInput(
+                attrs={
+                    "placeholder": "Write a task name"
+                }
+            )
+        }
