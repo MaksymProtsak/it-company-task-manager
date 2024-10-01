@@ -41,3 +41,14 @@ class TaskForm(forms.ModelForm):
                 }
             )
         }
+
+
+class TaskSearchForm(forms.Form):
+    task = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search a task by name"}
+        )
+    )
