@@ -122,5 +122,11 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
-    success_url = reverse_lazy("task_manager:tasks-list")
     form_class = TaskForm
+    success_url = reverse_lazy("task_manager:tasks-list")
+
+
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("task_manager:tasks-list")
