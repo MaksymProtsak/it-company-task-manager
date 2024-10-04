@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>
+    Worker List
+    <a href="{% url 'task_manager:worker-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  <form method="get" action="" class="form-inline">
+    {{ search_form|crispy }}
+    <input type="submit" value="🔍" class="btn btn-secondary ml-1">
+  </form>
+  {% if worker_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Is superuser</th>
+        <th>Email</th>
+        <th>Is staff</th>
+        <th>Is active</th>
+        <th>Position</th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      {% for worker in worker_list %}
+        <tr>
+          <td>
+            {{ worker.id }}
+          </td>
+          <td>
+            {{ worker.username }} {% if user == worker %} (Me){% endif %}
+          </td>
+          <td>
+            {{ worker.first_name }}
+          </td>
+          <td>
+            {{ worker.last_name }}
+          </td>
+          <td>
+            {{ worker.is_superuser }}
+          </td>
+          <td>
+            {{ worker.email }}
+          </td>
+          <td>
+            {{ worker.is_staff }}
+          </td>
+          <td>
+            {{ worker.is_active }}
+          </td>
+          <td>
+            {{ worker.position }}
+          </td>
+          <td>
+             <a href="{% url 'task_manager:worker-update' pk=worker.id %}">
+              🔄
+            </a>
+          </td>
+          <td>
+            <a style="color: red"
+               href="{% url 'task_manager:worker-delete' pk=worker.id %}">
+              🗑️
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+    <p>There are no positions in the task manager.</p>
+  {% endif %}
+{% endblock %}
