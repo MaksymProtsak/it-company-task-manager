@@ -13,11 +13,40 @@ from .views import (
     TaskCreateView,
     TaskUpdateView,
     TaskDeleteView,
+    WorkerListView,
+    WorkerDetailView,
+    WorkerCreateView,
+    WorkerUpdateView,
+    WorkerDeleteView,
 )
 
 urlpatterns = [
     path("", index, name="index"),
-
+    path(
+        "workers/",
+        WorkerListView.as_view(),
+        name="workers-list"
+    ),
+    path(
+        "workers/<int:pk>/detail/",
+        WorkerDetailView.as_view(),
+        name="worker-detail"
+    ),
+    path(
+        "workers/create/",
+        WorkerCreateView.as_view(),
+        name="worker-create"
+    ),
+    path(
+        "workers/<int:pk>/update/",
+        WorkerUpdateView.as_view(),
+        name="worker-update"
+    ),
+    path(
+        "workers/<int:pk>/delete/",
+        WorkerDeleteView.as_view(),
+        name="worker-delete"
+    ),
     path(
         "tasks/",
         TaskListView.as_view(),
