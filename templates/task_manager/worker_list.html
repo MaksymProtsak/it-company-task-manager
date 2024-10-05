@@ -34,7 +34,10 @@
             {{ worker.id }}
           </td>
           <td>
-            {{ worker.username }} {% if user == worker %} (Me){% endif %}
+            <a href="{% url 'task_manager:worker-detail' pk=worker.id %}">
+              {{ worker.username }}
+            </a>
+             {% if user == worker %} (Me){% endif %}
           </td>
           <td>
             {{ worker.first_name }}
