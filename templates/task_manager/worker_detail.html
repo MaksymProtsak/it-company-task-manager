@@ -19,17 +19,20 @@
   <p><strong>Position:</strong> {{ worker.position }}</p>
 
   <div class="ml-3">
-    <h4>Tasks</h4>
+    <h4>Tasks assigned by me:</h4>
 
     {% for task in worker.tasks.all %}
       <hr>
+      <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-primary link-to-page">
+          Edit
+        </a>
       <p><strong>Title:</strong> {{ task.name }}</p>
       <p><strong>description:</strong> {{ task.description }}</p>
       <p><strong>deadline:</strong> {{ task.deadline }}</p>
       <p><strong>is completed:</strong> {{ task.is_completed }}</p>
       <p><strong>priority:</strong> {{ task.get_priority_display }}</p>
       <p><strong>type:</strong> {{ task.task_type }}</p>
-      <p><strong>assignees:</strong> {{ task.assignees }}</p>
+      <p><strong>assignees:</strong> {{ task.assignees.all|join:", " }}</p>
       <p class="text-muted"><strong>Id:</strong> {{ task.id }}</p>
 
     {% empty %}
