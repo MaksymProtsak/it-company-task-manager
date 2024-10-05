@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
@@ -144,10 +145,19 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("task_manager:tasks-list")
 
 
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Task
+
+
 class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy("task_manager:tasks-list")
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "task_manager:task-detail",
+            kwargs={"pk": self.object.id}
+        )
 
 
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -181,7 +191,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
-    queryset = Worker.objects.all().prefetch_related("tasks__task_type")
+    queryset = Worker.objects.all().select_related("position").prefetch_related("tasks__task_type")
 
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
@@ -199,3 +209,15 @@ class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
 class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Worker
     success_url = reverse_lazy("task_manager:workers-list")
+
+
+@login_required
+def toggle_assign_to_task(request, pk):
+    worker = Worker.objects.get(id=request.user.id)
+    if (
+        Worker.objects.get(id=pk) in Task.assignees.all()
+    ):  # probably could check if car exists
+        Task.assignees.remove(pk)
+    else:
+        Task.assignees.add(pk)
+    return HttpResponseRedirect(reverse_lazy("task_manager:task-detail", args=[pk]))
