@@ -32,7 +32,7 @@
             {{ task.id }}
           </td>
           <td>
-            {{ task.name }}
+            <a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a>
           </td>
           <td>
             {{ task.get_priority_display }}
