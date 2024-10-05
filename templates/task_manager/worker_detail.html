@@ -56,7 +56,6 @@
   <div class="ml-3">
     <h4>Tasks assigned by {{ worker.username }}:</h4>
 
-
     <table class="table">
       <tr>
         <th style="width: 5%;">#</th>
@@ -65,34 +64,22 @@
         <th>Is completed</th>
         <th>Priority</th>
         <th>Type</th>
-        <th style="width: 7%;">Task id</th>
-        <th style="width: 5%;"></th>
+        <th>Task id</th>
       </tr>
       {% for task in worker.tasks.all %}
         <tr>
           <td>{{ forloop.counter }}</td>
 
           <td>
-            {{ task.name }}
+            <a href="{% url 'task_manager:task-detail' pk=task.id %}">
+              {{ task.name }}
+            </a>
           </td>
-          <td>
-            {{ task.deadline }}
-          </td>
-          <td>
-            {{ task.is_completed }}
-          </td>
-          <td>
-            {{ task.get_priority_display }}
-          </td>
-          <td>
-            {{ task.task_type }}
-          </td>
-          <td align="center">
-            {{ task.id }}
-          </td>
-          <td>
-            <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-primary link-to-page">Edit</a>
-          </td>
+          <td>{{ task.deadline }}</td>
+          <td>{{ task.is_completed }}</td>
+          <td>{{ task.get_priority_display }}</td>
+          <td>{{ task.task_type }}</td>
+          <td>{{ task.id }}</td>
         </tr>
       {% empty %}
         <tr>
