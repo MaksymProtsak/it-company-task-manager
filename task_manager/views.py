@@ -129,9 +129,9 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Task.objects.all()
+        queryset = Task.objects.all().select_related("task_type").prefetch_related("assignees")
         form = TaskSearchForm(self.request.GET)
-        if form.is_valid() and form.data.get(key="task") is not None:
+        if form.is_valid() and form.data.get("task") is not None:
             return queryset.filter(
                 name__icontains=self.request.GET.get("task")
             )
@@ -170,7 +170,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Worker.objects.all()
+        queryset = Worker.objects.all().select_related("position")
         form = WorkerSearchForm(self.request.GET)
         if form.is_valid() and form.data.get(key="worker") is not None:
             return queryset.filter(
