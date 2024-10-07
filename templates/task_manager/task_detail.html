@@ -34,14 +34,15 @@
     <h4>
       Assignees
       {% if user in task.assignees.all %}
-      <a href="{% url 'task_manager:toggle-task-assign' pk=user.id %}" class="btn btn-danger link-to-page">
-        Delete me from this task
-      </a>
-    {% else %}
-      <a href="{% url 'task_manager:toggle-task-assign' pk=user.id %}" class="btn btn-success link-to-page">
-        Assign me to this task
-      </a>
-    {% endif %}
+        <a href="{% url 'task_manager:toggle-task-assign' pk=task.id %}" class="btn btn-danger link-to-page">
+          Delete me from this task
+        </a>
+      {% else %}
+        <a href="{% url 'task_manager:toggle-task-assign' pk=task.id %}" class="btn btn-success link-to-page">
+          Assign me to this task
+        </a>
+      {% endif %}
+
     </h4>
     <table class="table">
       <tr>
