@@ -147,6 +147,8 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
+    queryset = Task.objects.all(
+    ).select_related("task_type").prefetch_related("assignees__position")
 
 
 class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -191,7 +193,8 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
-    queryset = Worker.objects.all().select_related("position").prefetch_related("tasks__task_type")
+    queryset = Worker.objects.all(
+    ).select_related("position").prefetch_related("tasks__task_type")
 
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
@@ -214,10 +217,15 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
 @login_required
 def toggle_assign_to_task(request, pk):
     worker = Worker.objects.get(id=request.user.id)
+    task = Task.objects.get(id=pk)
     if (
-        Worker.objects.get(id=pk) in Task.assignees.all()
+            task in worker.tasks.all()
     ):  # probably could check if car exists
-        Task.assignees.remove(pk)
+        worker.tasks.remove(task)
     else:
-        Task.assignees.add(pk)
-    return HttpResponseRedirect(reverse_lazy("task_manager:task-detail", args=[pk]))
+        worker.tasks.add(task)
+    return HttpResponseRedirect(
+        reverse_lazy(
+            "task_manager:task-detail",
+            args=[pk])
+    )
