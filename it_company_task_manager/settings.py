@@ -24,6 +24,9 @@ SECRET_KEY = 'django-insecure-warf&_48pirp&$j^h^+_#*qnb$+0jy+vxq*fibf1!-u#l7gk+h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Assets Management
+ASSETS_ROOT = '/static/assets'
+
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -70,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'task_manager.context_processors.cfg_assets_root',
             ],
         },
     },
