@@ -30,7 +30,8 @@ def index(request):
         "num_visits": num_visits + 1,
     }
 
-    return render(request, "task_manager/index.html", context=context)
+    # return render(request, "task_manager/index.html", context=context)
+    return render(request, "home/index.html", context=context)
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
