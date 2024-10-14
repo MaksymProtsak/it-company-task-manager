@@ -17,10 +17,11 @@ from .views import (
     WorkerDetailView,
     WorkerCreateView,
     WorkerUpdateView,
-    WorkerDeleteView, TaskDetailView, toggle_assign_to_task,
+    WorkerDeleteView, TaskDetailView, toggle_assign_to_task, register_user,
 )
 
 urlpatterns = [
+    path('register/', register_user, name="register"),
     path("", index, name="index"),
     path(
         "workers/",
