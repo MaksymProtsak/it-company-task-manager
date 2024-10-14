@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -5,8 +6,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
 
-from .forms import PositionSearchForm, TaskTypeSearchForm, TaskForm, TaskSearchForm, WorkerCreateForm, WorkerForm, \
-    WorkerSearchForm
+from .forms import (
+    PositionSearchForm,
+    TaskTypeSearchForm,
+    TaskForm,
+    TaskSearchForm,
+    WorkerCreateForm,
+    WorkerForm,
+    WorkerSearchForm,
+    SignUpForm
+)
 from .models import Worker, Task, TaskType, Position
 
 
@@ -32,6 +41,31 @@ def index(request):
 
     # return render(request, "task_manager/index.html", context=context)
     return render(request, "home/index.html", context=context)
+
+
+def register_user(request):
+    msg = None
+    success = False
+
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            raw_password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=raw_password)
+
+            msg = 'Account created successfully.'
+            success = True
+
+            # return redirect("/login/")
+
+        else:
+            msg = 'Form is not valid'
+    else:
+        form = SignUpForm()
+
+    return render(request, "registration/register.html", {"form": form, "msg": msg, "success": success})
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
