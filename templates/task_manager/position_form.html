@@ -1,12 +1,53 @@
 {% extends "base.html" %}
 {% load crispy_forms_filters %}
-
+{% block title %}{{ object|yesno:"Update,Create" }}{% endblock %}
 {% block content %}
-  <h1>{{ object|yesno:"Update,Create" }} position</h1>
-  <form action="" method="post" novalidate>
-    {% csrf_token %}
-    {{ form|crispy }}
-
-    <input type="submit" value="Submit" class="btn btn-primary">
-  </form>
+  {% include 'includes/navigation.html' %}
+  <div class="page-header align-items-center min-vh-75">
+    <div class="container my-auto">
+      <div class="row">
+        <div class="col-lg-4 col-md-8 col-12 mx-auto">
+          <div class="card z-index-0 fadeIn3 fadeInBottom">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                  {{ object|yesno:"Update,Create" }} position
+                </h4>
+                <div class="row mt-3">
+                  <p class="mb-0 text-white text-center">
+                    {{ object|yesno:"Update,Create" }} position in task manager
+                  </p>
+                </div>
+              </div>
+              <div class="card-body">
+                <form role="form" method="post" action="">
+                  {% csrf_token %}
+                  <div class="input-group input-group-outline mb-3">
+                    {% if object %}
+                    <input
+                        type="text"
+                        name="name"
+                        value="{% if object %}{{ position.name }}{% else %}Position name{% endif %}"
+                        class="form-control"
+                        required
+                        id="id_username">
+                    {% else %}
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Position name"
+                        class="form-control"
+                        required
+                        id="id_username">
+                    {% endif %}
+                  </div>
+                  <input type="submit" value="Submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
