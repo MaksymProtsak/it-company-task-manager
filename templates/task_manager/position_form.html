@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load crispy_forms_filters %}
-{% block title %}{{ object|yesno:"Update,Create" }}{% endblock %}
+{% block title %}{{ object|yesno:"Update,Create" }} position{% endblock %}
 {% block content %}
-  {% include 'includes/navigation.html' %}
+  {% include "includes/navigation.html" %}
   <div class="page-header align-items-center min-vh-75">
     <div class="container my-auto">
       <div class="row">
