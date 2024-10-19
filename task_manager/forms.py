@@ -46,7 +46,13 @@ class TaskForm(forms.ModelForm):
                 attrs={
                     "placeholder": "Write a task name"
                 }
-            )
+            ),
+            "task_type": forms.Select(
+                attrs={"class": "form-control border p-3 pt-2 pb-2 w-100"}
+            ),
+            "priority": forms.Select(
+                attrs={"class": "form-control border p-3 pt-2 pb-2 w-100"}
+            ),
         }
 
 
