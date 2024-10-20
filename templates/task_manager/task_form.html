@@ -25,73 +25,36 @@
               <div class="card-body">
                 <form role="form" method="post" action="">
                   {% csrf_token %}
-                  <div class="input-group input-group-outline mb-3">
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Task name"
-                        class="form-control"
-                        required
-                        id="id_name">
-                  </div>
+                  <p class="m-0">Task name:</p>
+                  {{ form.name }}
+                  <p class="m-0">Task description:</p>
+                  {{ form.description }}
+                  <p class="m-0">Dedline:</p>
+                  {{ form.deadline }}
+                  <p class="m-0">Is completed: {{ form.is_completed }}</p>
+                  <p class="m-0">Priority:</p>
+                  {{ form.priority }}
+                  <p class="m-0">Task type:</p>
+                  {{ form.task_type }}
+                  <p class="m-0">Task assignees:</p>
 
-                  <div class="input-group input-group-outline mb-3">
-                    <input
-                        type="text"
-                        name="description"
-                        placeholder="Description"
-                        class="form-control"
-                        required
-                        id="id_description">
-                  </div>
+                  <ul class="form-check p-2 pt-0 pb-0" style="list-style: none;">
+                    {% for assignee in form.assignees %}
+                      <li>
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="assignees"
+                            value="{{ assignee.data.value }}"
+                            id="{{ assignee.id_for_label }}"
+                        {% if assignee.data.selected %} checked {% endif %}>
+                        <label class="form-check-label" for="{{ assignee.id_for_label }}">
+                          {{ assignee.choice_label }}
+                        </label>
+                      </li>
+                    {% endfor %}
+                  </ul>
 
-                  <div class="input-group input-group-outline mb-4">
-                    <p class="m-1">Dedline:</p>
-                    <input
-                        type="date"
-                        name="deadline"
-                        placeholder="Deadline"
-                        class="form-control"
-                        required
-                        id="id_deadline">
-                  </div>
-
-                  <div class="form-check form-switch d-flex align-items-start mb-3 p-0 ">
-                    <p class="mt-1 m-lg-0">Is complited:</p>
-                    <input class="form-check-input m-2" type="checkbox" id="id_is_completed">
-                    <label class="form-check-label mb-0 ms-2"
-                           for="is_completed">{{ form.is_completed.choice_label }}</label>
-                  </div>
-
-                  <div class="form-check form-switch d-flex align-items-center mb-1 p-0">
-                    <p class="m-0">Priority:</p>
-                    <div class="flex-grow-1 p-0 m-n2">
-                      <div class="p-lg-2 m-1 mb-0 mt-0">
-                        {{ form.priority }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="form-check form-switch d-flex align-items-center mb-1 mt-3 p-0">
-                    <p class="m-0">Type:</p>
-                    <div class="flex-grow-1 p-0 m-n2">
-                      <div class="p-lg-2 m-1 mb-0 mt-0">
-                        {{ form.task_type }}
-                      </div>
-                    </div>
-                  </div>
-
-                    <div class="row text-left py-2 mt-3 m-0 mt-0 mb-n3">
-                      <p class="m-lg-n2 pb-3">Assignees:</p>
-                      {% for assignee in form.assignees %}
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="id_{{ assignee.choice_label }}">
-                          <label class="form-check-label" for="id_{{ assignee.choice_label }}">
-                            {{ assignee.choice_label }}
-                          </label>
-                        </div>
-                      {% endfor %}
-                    </div>
                   <input type="submit" value="Submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">
                 </form>
               </div>
