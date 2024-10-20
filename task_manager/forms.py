@@ -28,30 +28,40 @@ class TaskTypeSearchForm(forms.Form):
 
 
 class TaskForm(forms.ModelForm):
-    assignees = forms.ModelMultipleChoiceField(
-        queryset=get_user_model().objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-    )
-
     class Meta:
         model = Task
         fields = '__all__'
         widgets = {
-            "deadline": forms.DateInput(
-                attrs={
-                    "type": "date",
-                }
-            ),
             "name": forms.TextInput(
                 attrs={
-                    "placeholder": "Write a task name"
+                    "placeholder": "Write a task name",
+                    "class": "border rounded w-100 p-1 mb-3"
+                }
+            ),
+            "description": forms.TextInput(
+                attrs={
+                    "placeholder": "Write description",
+                    "class": "border rounded w-100 p-1 mb-3"
+                }
+            ),
+            "deadline": forms.DateInput(
+                attrs={
+                    "type": "date", "class": "border rounded w-100 p-1  mb-3"
+                }
+            ),
+            "is_completed": forms.CheckboxInput(
+                attrs={
+                    "class": "mb-3",
                 }
             ),
             "task_type": forms.Select(
-                attrs={"class": "form-control border p-3 pt-2 pb-2 w-100"}
+                attrs={"class": "form-control border p-3 pt-2 pb-2  mb-3 w-100"}
             ),
             "priority": forms.Select(
-                attrs={"class": "form-control border p-3 pt-2 pb-2 w-100"}
+                attrs={"class": "form-control border p-3 pt-2 pb-2 mb-3 w-100"}
+            ),
+            "assignees": forms.CheckboxSelectMultiple(
+                choices=get_user_model().objects.all(),
             ),
         }
 
