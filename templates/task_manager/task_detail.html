@@ -1,78 +1,106 @@
 {% extends "base.html" %}
-
+{% block title %}Detail{% endblock %}
 {% block content %}
-  <h1>
-    Task detail page
-    <a href="{% url 'task_manager:task-delete' pk=task.id %}" class="btn btn-danger link-to-page">
-      Delete
-    </a>
-    <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-secondary link-to-page">
-      Update
-    </a>
-  </h1>
+  {% include "includes/navigation.html" %}
+  <div class="container my-7">
+    <div class="row">
+      <div class="col-lg-12 col-12 mx-auto">
+        <table class="table m-n2">
+          <tr>
+            <td>
+              <h1>
+                Task detail page:
+              </h1>
+            </td>
+            <td class="text-lg-end">
+              {% if user in task.assignees.all %}
+                <a href="{% url 'task_manager:toggle-task-assign' pk=task.id %}"
+                   class="btn btn-primary link-to-page my-2">
+                  Delete me from this task
+                </a>
+              {% else %}
+                <a href="{% url 'task_manager:toggle-task-assign' pk=task.id %}"
+                   class="btn btn-success link-to-page my-2">
+                  Assign me to this task
+                </a>
+              {% endif %}
+            </td>
+            <td class="text-lg-end w-0">
+              <a href="{% url 'task_manager:task-delete' pk=task.id %}" class="btn btn-danger link-to-page my-2">Delete
+              </a>
+            </td>
+            <td class="text-lg-end w-0">
+              <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-info link-to-page my-2">
+                Update
+              </a>
+            </td>
+          </tr>
+        </table>
 
-  <table class="table">
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Deadline</th>
-      <th>Is completed</th>
-      <th>Priority</th>
-      <th>Task type</th>
-    </tr>
-    <tr>
-      <td>{{ task.name }}</td>
-      <td>{{ task.description }}</td>
-      <td>{{ task.deadline }}</td>
-      <td>{{ task.is_completed }}</td>
-      <td>{{ task.get_priority_display }}</td>
-      <td>{{ task.task_type }}</td>
-    </tr>
-  </table>
+        <div class="card z-index-0 fadeIn3 fadeInBottom mb-3">
+          <div class="card-body pb-0">
+            <section class="pt-0 pb-2" id="count-stats">
+              <table class="table">
+                <tr class="text-center">
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Deadline</th>
+                  <th>Is completed</th>
+                  <th>Priority</th>
+                  <th>Task type</th>
+                </tr>
+                <tr>
+                  <td class="text-wrap">{{ task.name }}</td>
+                  <td class="text-wrap max-width-200">{{ task.description }}</td>
+                  <td class="text-center">{{ task.deadline }}</td>
+                  <td class="text-center">{{ task.is_completed }}</td>
+                  <td class="text-center">{{ task.get_priority_display }}</td>
+                  <td class="text-center">{{ task.task_type }}</td>
+                </tr>
+              </table>
+            </section>
+          </div>
+        </div>
 
-  <div class="ml-3">
-    <h4>
-      Assignees
-      {% if user in task.assignees.all %}
-        <a href="{% url 'task_manager:toggle-task-assign' pk=task.id %}" class="btn btn-danger link-to-page">
-          Delete me from this task
-        </a>
-      {% else %}
-        <a href="{% url 'task_manager:toggle-task-assign' pk=task.id %}" class="btn btn-success link-to-page">
-          Assign me to this task
-        </a>
-      {% endif %}
+        <table>
+          <tr>
+            <td><h4>Assignees:</h4></td>
+          </tr>
+        </table>
+        <div class="card z-index-0 fadeIn3 fadeInBottom mt-n1">
+          <div class="card-body pb-0">
+            <section class="pt-0 pb-2" id="count-stats">
+              <table class="table">
+                <tr class="text-center">
+                  <th>Username</th>
+                  <th>First name</th>
+                  <th>Last name</th>
+                  <th>Is superuser</th>
+                  <th>Email</th>
+                  <th>Position</th>
+                </tr>
+                {% for assignee in task.assignees.all %}
+              <tr>
+                <td>
+                  <a href="{% url 'task_manager:worker-detail' pk=assignee.id %}">
+                    {{ assignee.username }}
+                  </a>
+                </td>
+                <td class="text-center">{{ assignee.first_name }}</td>
+                <td class="text-center">{{ assignee.last_name }}</td>
+                <td class="text-center">{{ assignee.is_superuser }}</td>
+                <td class="text-center">{{ assignee.email }}</td>
+                <td class="text-center">{{ assignee.position }}</td>
+              </tr>
 
-    </h4>
-    <table class="table">
-      <tr>
-        <th>Username</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Is superuser</th>
-        <th>Email</th>
-        <th>Position</th>
-      </tr>
-
-      {% for assignee in task.assignees.all %}
-        <tr>
-          <td>
-            <a href="{% url 'task_manager:worker-detail' pk=assignee.id %}">
-              {{ assignee.username }}
-            </a>
-          </td>
-          <td>{{ assignee.first_name }}</td>
-          <td>{{ assignee.last_name }}</td>
-          <td>{{ assignee.is_superuser }}</td>
-          <td>{{ assignee.email }}</td>
-          <td>{{ assignee.position }}</td>
-        </tr>
-
-      {% empty %}
-        <p>No cars!</p>
-      {% endfor %}
-    </table>
-
+            {% empty %}
+              <p>No assignee(s)!</p>
+            {% endfor %}
+              </table>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
 {% endblock %}
