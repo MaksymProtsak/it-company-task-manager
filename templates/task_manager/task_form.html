@@ -3,7 +3,7 @@
 {% block title %}{{ object|yesno:"Update,Create" }} task{% endblock %}
 {% block content %}
   {% include "includes/navigation.html" %}
-  <div class="page-header align-items-center min-vh-75">
+  <div class="page-header align-items-center min-vh-75 pt-8 pb-2">
     <div class="container my-auto">
       <div class="row">
         <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -31,7 +31,23 @@
                   {{ form.description }}
                   <p class="m-0">Dedline:</p>
                   {{ form.deadline }}
-                  <p class="m-0">Is completed: {{ form.is_completed }}</p>
+                  <div class="d-flex align-items-center mb-2">
+                  <p class="m-0">
+                    Is completed:
+                  </p>
+                  <div class="form-check form-switch ps-0 m-3 mt-1 mb-0">
+                    <input
+                        class="form-check-input ms-auto mt-1"
+                        type="checkbox"
+                        id="{{ form.is_completed.id_for_label }}"
+                        name="{{ form.is_completed.name }}"
+                        {% if form.is_completed.value %} checked {% endif %}>
+                    <label
+                        class="form-check-label ms-2"
+                        for="{{ form.is_completed.id_for_label }}">
+                    </label>
+                  </div>
+                </div>
                   <p class="m-0">Priority:</p>
                   {{ form.priority }}
                   <p class="m-0">Task type:</p>
