@@ -38,10 +38,12 @@ class TaskForm(forms.ModelForm):
                     "class": "border rounded w-100 p-1 mb-3"
                 }
             ),
-            "description": forms.TextInput(
+            "description": forms.Textarea(
                 attrs={
                     "placeholder": "Write description",
-                    "class": "border rounded w-100 p-1 mb-3"
+                    "class": "border rounded w-100 p-1 mb-3",
+                    "rows": 3,
+                    "wrap": "soft"
                 }
             ),
             "deadline": forms.DateInput(
