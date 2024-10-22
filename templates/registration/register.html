@@ -1,6 +1,6 @@
 {% extends "layouts/base-fullscreen.html" %}
 
-{% block title %} Sign UP {% endblock %} 
+{% block title %} Sign UP {% endblock %}
 
 {% block body_class %} sign-in-basic {% endblock %}
 
@@ -9,9 +9,11 @@
 
 {% block content %}
 
-  {% include 'includes/navigation-transparent.html' %} 
-  
-  <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');" loading="lazy">
+  {% include "includes/navigation-transparent.html" %}
+
+  <div class="page-header align-items-start min-vh-100"
+       style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');"
+       loading="lazy">
     <span class="mask bg-gradient-dark opacity-6"></span>
     <div class="container my-auto">
       <div class="row">
@@ -36,10 +38,10 @@
             <div class="card-body">
 
               {% if not success %}
-              
+
                 <form role="form" method="post" action="">
 
-                  {% csrf_token %} 
+                  {% csrf_token %}
 
                   <div class="input-group input-group-outline mb-3">
                     {{ form.username }}
@@ -70,8 +72,9 @@
                     </label>
                   </div>
                   <div class="text-center">
-                    <button type="submit" name="register" 
-                            class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign Up</button>
+                    <button type="submit" name="register"
+                            class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign Up
+                    </button>
                   </div>
                   <p class="mt-4 text-sm text-center">
                     Already have an account?
@@ -79,12 +82,12 @@
                   </p>
                 </form>
 
-              {% else %} 
+              {% else %}
 
-                  <p class="mt-4 text-sm text-center">
-                    <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">Sign IN</a> 
-                  </p>
-              
+                <p class="mt-4 text-sm text-center">
+                  <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">Sign IN</a>
+                </p>
+
               {% endif %}
 
             </div>
@@ -92,8 +95,8 @@
         </div>
       </div>
     </div>
-    
-    {% include 'includes/footer-auth.html' %} 
+
+    {% include 'includes/footer-auth.html' %}
 
   </div>
 
