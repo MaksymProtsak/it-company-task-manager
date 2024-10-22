@@ -88,12 +88,55 @@ class WorkerCreateForm(UserCreationForm):
             "email",
             "position",
         )
+        widgets = {
+            "username": forms.TextInput(
+                attrs={
+                    "placeholder": "Write a worker username",
+                    "class": "text-input form-control border rounded w-100 p-1 mb-3",
+                    "data-bs-toggle": "tooltip",
+                    "data-bs-placement": "right",
+                    "title": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+                }
+            ),
+            "first_name": forms.TextInput(
+                attrs={
+                    "placeholder": "Write a worker first name",
+                    "class": "border rounded w-100 p-1 mb-3 text-input form-control",
+                }
+            ),
+            "last_name": forms.TextInput(
+                attrs={
+                    "placeholder": "Write a worker last name",
+                    "class": "border rounded w-100 p-1 mb-3 text-input form-control",
+                }
+            ),
+            "email": forms.TextInput(
+                attrs={
+                    "placeholder": "Write a worker email",
+                    "class": "border rounded w-100 p-1 mb-3 text-input form-control",
+                }
+            ),
+            "position": forms.Select(
+                attrs={
+                    "class": "form-control border p-3 pt-2 pb-2 mb-3",
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["password1"].widget.attrs.update({
+            "class": "form-control border w-100 p-1 pt-2 pb-1 mb-3",
+        })
+        self.fields["password2"].widget.attrs.update({
+            "class": "form-control border w-100 p-1 pt-2 pb-2 mb-3",
+        })
 
 
 class WorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
-        fields = ["username", "first_name", "last_name", "email", "position",]
+        fields = ["username", "first_name", "last_name", "email", "position", ]
         widgets = {
             "deadline": forms.DateInput(
                 attrs={
