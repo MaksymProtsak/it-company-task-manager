@@ -79,8 +79,45 @@ class TaskSearchForm(forms.Form):
     )
 
 
+class WorkerWidgetsFormMixin:
+    widgets = {
+        "username": forms.TextInput(
+            attrs={
+                "placeholder": "Write a worker username",
+                "class": "text-input form-control border rounded w-100 p-1 mb-3",
+                "data-bs-toggle": "tooltip",
+                "data-bs-placement": "right",
+                "title": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+            }
+        ),
+        "first_name": forms.TextInput(
+            attrs={
+                "placeholder": "Write a worker first name",
+                "class": "border rounded w-100 p-1 mb-3 text-input form-control",
+            }
+        ),
+        "last_name": forms.TextInput(
+            attrs={
+                "placeholder": "Write a worker last name",
+                "class": "border rounded w-100 p-1 mb-3 text-input form-control",
+            }
+        ),
+        "email": forms.TextInput(
+            attrs={
+                "placeholder": "Write a worker email",
+                "class": "border rounded w-100 p-1 mb-3 text-input form-control",
+            }
+        ),
+        "position": forms.Select(
+            attrs={
+                "class": "form-control border p-3 pt-2 pb-2 mb-3",
+            }
+        ),
+    }
+
+
 class WorkerCreateForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
+    class Meta(UserCreationForm.Meta, WorkerWidgetsFormMixin):
         model = Worker
         fields = UserCreationForm.Meta.fields + (
             "first_name",
@@ -88,40 +125,6 @@ class WorkerCreateForm(UserCreationForm):
             "email",
             "position",
         )
-        widgets = {
-            "username": forms.TextInput(
-                attrs={
-                    "placeholder": "Write a worker username",
-                    "class": "text-input form-control border rounded w-100 p-1 mb-3",
-                    "data-bs-toggle": "tooltip",
-                    "data-bs-placement": "right",
-                    "title": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-                }
-            ),
-            "first_name": forms.TextInput(
-                attrs={
-                    "placeholder": "Write a worker first name",
-                    "class": "border rounded w-100 p-1 mb-3 text-input form-control",
-                }
-            ),
-            "last_name": forms.TextInput(
-                attrs={
-                    "placeholder": "Write a worker last name",
-                    "class": "border rounded w-100 p-1 mb-3 text-input form-control",
-                }
-            ),
-            "email": forms.TextInput(
-                attrs={
-                    "placeholder": "Write a worker email",
-                    "class": "border rounded w-100 p-1 mb-3 text-input form-control",
-                }
-            ),
-            "position": forms.Select(
-                attrs={
-                    "class": "form-control border p-3 pt-2 pb-2 mb-3",
-                }
-            ),
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -134,21 +137,9 @@ class WorkerCreateForm(UserCreationForm):
 
 
 class WorkerForm(forms.ModelForm):
-    class Meta:
+    class Meta(WorkerWidgetsFormMixin):
         model = Worker
         fields = ["username", "first_name", "last_name", "email", "position", ]
-        widgets = {
-            "deadline": forms.DateInput(
-                attrs={
-                    "type": "date",
-                }
-            ),
-            "name": forms.TextInput(
-                attrs={
-                    "placeholder": "Write a task name"
-                }
-            )
-        }
 
 
 class WorkerSearchForm(forms.Form):
