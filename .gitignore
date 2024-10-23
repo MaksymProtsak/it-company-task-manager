@@ -1,5 +1,6 @@
 .idea
 .venv
+.env
 db.sqlite3
 task_manager/__pycache__/
 it_company_task_manager/__pycache__/
