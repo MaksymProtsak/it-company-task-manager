@@ -39,7 +39,6 @@ def index(request):
         "num_visits": num_visits + 1,
     }
 
-    # return render(request, "task_manager/index.html", context=context)
     return render(request, "home/index.html", context=context)
 
 
@@ -57,9 +56,6 @@ def register_user(request):
 
             msg = 'Account created successfully.'
             success = True
-
-            # return redirect("/login/")
-
         else:
             msg = 'Form is not valid'
     else:
