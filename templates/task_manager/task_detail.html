@@ -39,7 +39,7 @@
 
         <div class="card z-index-0 fadeIn3 fadeInBottom mb-3">
           <div class="card-body pb-0">
-            <section class="pt-0 pb-2" id="count-stats">
+            <section class="pt-0 pb-2" id="worker-info">
               <table class="table">
                 <tr class="text-center">
                   <th>Name</th>
@@ -49,7 +49,7 @@
                   <th>Priority</th>
                   <th>Task type</th>
                 </tr>
-                <tr>
+                <tr class="text-center">
                   <td class="text-wrap">{{ task.name }}</td>
                   <td class="text-wrap max-width-200">{{ task.description }}</td>
                   <td class="text-center">{{ task.deadline }}</td>
@@ -62,42 +62,40 @@
           </div>
         </div>
 
-        <table>
-          <tr>
-            <td><h4>Assignees:</h4></td>
-          </tr>
-        </table>
-        <div class="card z-index-0 fadeIn3 fadeInBottom mt-n1">
-          <div class="card-body pb-0">
-            <section class="pt-0 pb-2" id="count-stats">
-              <table class="table">
-                <tr class="text-center">
-                  <th>Username</th>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Is superuser</th>
-                  <th>Email</th>
-                  <th>Position</th>
-                </tr>
-                {% for assignee in task.assignees.all %}
-              <tr>
-                <td>
-                  <a href="{% url 'task_manager:worker-detail' pk=assignee.id %}">
-                    {{ assignee.username }}
-                  </a>
-                </td>
-                <td class="text-center">{{ assignee.first_name }}</td>
-                <td class="text-center">{{ assignee.last_name }}</td>
-                <td class="text-center">{{ assignee.is_superuser }}</td>
-                <td class="text-center">{{ assignee.email }}</td>
-                <td class="text-center">{{ assignee.position }}</td>
-              </tr>
+        <div class="ml-3">
+          <h4>Assignees:</h4>
+          <div class="card z-index-0 fadeIn3 fadeInBottom mt-n1">
+            <div class="card-body pb-0">
+              <section class="pt-0 pb-2" id="worker-tasks">
+                <table class="table">
+                  <tr class="text-center">
+                    <th>Username</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Is superuser</th>
+                    <th>Email</th>
+                    <th>Position</th>
+                  </tr>
+                  {% for assignee in task.assignees.all %}
+                    <tr class="text-center">
+                      <td>
+                        <a href="{% url 'task_manager:worker-detail' pk=assignee.id %}">
+                          {{ assignee.username }}
+                        </a>
+                      </td>
+                      <td>{{ assignee.first_name }}</td>
+                      <td>{{ assignee.last_name }}</td>
+                      <td>{{ assignee.is_superuser }}</td>
+                      <td>{{ assignee.email }}</td>
+                      <td>{{ assignee.position }}</td>
+                    </tr>
 
-            {% empty %}
-              <p>No assignee(s)!</p>
-            {% endfor %}
-              </table>
-            </section>
+                  {% empty %}
+                    <p>No assignee(s)!</p>
+                  {% endfor %}
+                </table>
+              </section>
+            </div>
           </div>
         </div>
       </div>
