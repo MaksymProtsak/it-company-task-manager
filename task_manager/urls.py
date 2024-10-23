@@ -17,7 +17,10 @@ from .views import (
     WorkerDetailView,
     WorkerCreateView,
     WorkerUpdateView,
-    WorkerDeleteView, TaskDetailView, toggle_assign_to_task, register_user,
+    WorkerDeleteView,
+    TaskDetailView,
+    register_user,
+    ToggleAssignToWorkerView
 )
 
 urlpatterns = [
@@ -75,7 +78,7 @@ urlpatterns = [
     ),
     path(
         "tasks/<int:pk>/toggle-assign/",
-        toggle_assign_to_task,
+        ToggleAssignToWorkerView.as_view(),
         name="toggle-task-assign",
     ),
 
