@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block title %}{{ object|yesno:"Update,Create" }} task{% endblock %}
+{% block content %}
+  {% include "includes/navigation.html" %}
+  <div class="page-header align-items-center min-vh-75 pt-8 pb-2">
+    <div class="container my-auto">
+      <div class="row">
+        <div class="col-lg-4 col-md-8 col-12 mx-auto">
+          <div class="card z-index-0 fadeIn3 fadeInBottom">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+
+              <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                  {{ object|yesno:"Update,Create" }} task
+                </h4>
+                <div class="row mt-3">
+                  <p class="mb-0 text-white text-center">
+                    {{ object|yesno:"Update,Create" }} task in task manager
+                  </p>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <form role="form" method="post" action="">
+                  {% csrf_token %}
+                  <p class="m-0">Task name:</p>
+                  {{ form.name }}
+                  <p class="m-0">Task description:</p>
+                  {{ form.description }}
+                  <p class="m-0">Dedline:</p>
+                  {{ form.deadline }}
+                  <div class="d-flex align-items-center mb-2">
+                    <p class="m-0">
+                      Is completed:
+                    </p>
+                    <div class="form-check form-switch ps-0 m-3 mt-1 mb-0">
+                      <input
+                          class="form-check-input ms-auto mt-1"
+                          type="checkbox"
+                          id="{{ form.is_completed.id_for_label }}"
+                          name="{{ form.is_completed.name }}"
+                          {% if form.is_completed.value %} checked {% endif %}>
+                      <label
+                          class="form-check-label ms-2"
+                          for="{{ form.is_completed.id_for_label }}">
+                      </label>
+                    </div>
+                  </div>
+                  <p class="m-0">Priority:</p>
+                  {{ form.priority }}
+                  <p class="m-0">Task type:</p>
+                  {{ form.task_type }}
+                  <p class="m-0">Task assignees:</p>
+
+                  <ul class="form-check p-2 pt-0 pb-0" style="list-style: none;">
+                    {% for assignee in form.assignees %}
+                      <li>
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="assignees"
+                            value="{{ assignee.data.value }}"
+                            id="{{ assignee.id_for_label }}"
+                            {% if assignee.data.selected %} checked {% endif %}>
+                        <label class="form-check-label" for="{{ assignee.id_for_label }}">
+                          {{ assignee.choice_label }}
+                        </label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+
+                  <input type="submit" value="Submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

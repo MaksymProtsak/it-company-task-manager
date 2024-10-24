@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "includes/navigation.html" %}
+  <div class="page-header align-items-center min-vh-75">
+    <div class="container my-auto">
+      <div class="row">
+        <div class="col-lg-4 col-md-8 col-12 mx-auto">
+          <div class="card z-index-0 fadeIn3 fadeInBottom">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                  Delete worker
+                </h4>
+              </div>
+              <div class="card-body">
+                <p class="mb-0 text-center">
+                  Do you really want to delete '{{ worker }}'?
+                  This worker will be deleted from task manager.
+                  All data connected with this worker will be saved.
+                </p>
+                <form role="form" method="post" action="">
+                  {% csrf_token %}
+                  <input type="submit" value="Yes" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

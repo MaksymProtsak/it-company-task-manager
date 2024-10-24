@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block title %}Task List{% endblock %}
+{% block content %}
+  {% include "includes/navigation.html" %}
+  <div class="container my-7">
+    <div class="row">
+      <div class="col-lg-12 col-12 mx-auto">
+        <table class="table m-n2">
+          <tr>
+            <td>
+              <h1>
+                Task List:
+              </h1>
+            </td>
+            <td style="width: 300px;">
+              <form method="get" action="" class="card bg-white text-black shadow px-3 my-2">
+                {{ search_form|crispy }}
+            </td>
+            <td class="text-lg-end w-0">
+              <input type="submit" value="🔍" class="btn btn-secondary ml-1 my-2">
+              </form>
+            </td>
+            <td class="text-lg-end w-0">
+              <a href="{% url 'task_manager:task-create' %}" class="btn btn-primary my-2">
+                Create
+              </a>
+            </td>
+          </tr>
+        </table>
+        <div class="card z-index-0 fadeIn3 fadeInBottom">
+          <div class="card-body pb-0">
+            <section class="pt-2 pb-2 table-responsive" id="count-stats">
+              {% if task_list %}
+                <table class="table">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Priority</th>
+                    <th>Deadline</th>
+                    <th>Is completed</th>
+                    <th>Task type</th>
+                    <th>Assignees</th>
+                    <th class="w-0"></th>
+                    <th class="w-0"></th>
+                  </tr>
+
+                  {% for task in task_list %}
+                    <tr>
+                      <td>
+                        {{ task.id }}
+                      </td>
+                      <td>
+                        <a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a>
+                      </td>
+                      <td>
+                        {{ task.get_priority_display }}
+                      </td>
+                      <td>
+                        {{ task.deadline }}
+                      </td>
+                      <td>
+                        {{ task.is_completed }}
+                      </td>
+                      <td>
+                        {{ task.task_type }}
+                      </td>
+                      <td>
+                        {{ task.assignees.count }}
+                      </td>
+                      <td>
+                        <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-info">
+                          Update
+                        </a>
+                      </td>
+                      <td>
+                        <a class="btn btn-danger"
+                           href="{% url 'task_manager:task-delete' pk=task.id %}">
+                          Delete
+                        </a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              {% else %}
+                No tasks yet.
+              {% endif %}
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center py-3 mt-n7">
+    {% include "includes/pagination.html" %}
+  </div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Worker detail{% endblock %}
+{% block content %}
+  {% include "includes/navigation.html" %}
+  <div class="container my-7">
+    <div class="row">
+      <div class="col-lg-12 col-12 mx-auto">
+        <table class="table m-n2">
+          <tr>
+            <td>
+              <h1>
+                Worker detail page:
+              </h1>
+            </td>
+            <td class="text-lg-end w-0">
+              <a href="{% url 'task_manager:worker-delete' pk=worker.id %}" class="btn btn-danger link-to-page my-2">
+                Delete
+              </a>
+            </td>
+            <td class="text-lg-end w-0">
+              <a href="{% url 'task_manager:worker-update' pk=worker.id %}" class="btn btn-info link-to-page my-2">
+                Update
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <div class="card z-index-0 fadeIn3 fadeInBottom mb-3">
+          <div class="card-body pb-0">
+            <section class="pt-0 pb-2 table-responsive" id="count-stats">
+              <table class="table">
+                <tr class="text-center">
+                  <th>
+                    Username
+                  </th>
+                  <th>
+                    First name
+                  </th>
+                  <th>
+                    Last name
+                  </th>
+                  <th>
+                    Is superuser
+                  </th>
+                  <th>
+                    Email
+                  </th>
+                  <th>
+                    Position
+                  </th>
+                </tr>
+                <tr class="text-center">
+                  <td>
+                    {{ worker.username }}
+                  </td>
+                  <td>
+                    {{ worker.first_name }}
+                  </td>
+                  <td>
+                    {{ worker.last_name }}
+                  </td>
+                  <td>
+                    {{ worker.is_superuser }}
+                  </td>
+                  <td>
+                    {{ worker.email }}
+                  </td>
+                  <td>
+                    {{ worker.position }}
+                  </td>
+                </tr>
+              </table>
+            </section>
+          </div>
+        </div>
+
+        <div class="ml-3">
+          <h4>Tasks assigned by {{ worker.username }}:</h4>
+          <div class="card z-index-0 fadeIn3 fadeInBottom mt-n1">
+            <div class="card-body pb-0">
+              <section class="pt-0 pb-2 table-responsive" id="worker-tasks">
+                <table class="table">
+                  <tr class="text-center">
+                    <th style="width: 5%;">#</th>
+                    <th>Title</th>
+                    <th>Deadline</th>
+                    <th>Is completed</th>
+                    <th>Priority</th>
+                    <th>Type</th>
+                    <th>Task id</th>
+                  </tr>
+                  {% for task in worker.tasks.all %}
+                    <tr>
+                      <td class="text-center"> {{ forloop.counter }}</td>
+
+                      <td class="text-center">
+                        <a href="{% url 'task_manager:task-detail' pk=task.id %}">
+                          {{ task.name }}
+                        </a>
+                      </td>
+                      <td class="text-center">{{ task.deadline }}</td>
+                      <td class="text-center">{{ task.is_completed }}</td>
+                      <td class="text-center">{{ task.get_priority_display }}</td>
+                      <td class="text-center">{{ task.task_type }}</td>
+                      <td class="text-center">{{ task.id }}</td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="8">No tasks!</td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

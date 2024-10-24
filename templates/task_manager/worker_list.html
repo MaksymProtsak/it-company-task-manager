@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block title %}Workers List{% endblock %}
+{% block content %}
+  {% include "includes/navigation.html" %}
+  <div class="container my-7">
+    <div class="row">
+      <div class="col-lg-12 col-12 mx-auto">
+        <table class="table m-n2">
+          <tr>
+            <td>
+              <h1>
+                Workers List
+              </h1>
+            </td>
+            <td style="width: 300px;">
+              <form method="get" action="" class="card bg-white text-black shadow px-3 my-2">
+                {{ search_form|crispy }}
+            </td>
+            <td class="text-lg-end w-0">
+              <input type="submit" value="🔍" class="btn btn-secondary ml-1 my-2">
+              </form>
+            </td>
+            <td class="text-lg-end w-0">
+              <a href="{% url 'task_manager:worker-create' %}" class="btn btn-primary my-2">
+                Create
+              </a>
+            </td>
+          </tr>
+        </table>
+        <div class="card z-index-0 fadeIn3 fadeInBottom">
+          <div class="card-body pb-0">
+            <section class="pt-2 pb-3" id="count-stats">
+              <div class="table-responsive">
+                {% if worker_list %}
+                  <table class="w-100 table">
+                    <tr class="text-center">
+                      <th>ID</th>
+                      <th>Username</th>
+                      <th>First name</th>
+                      <th>Last name</th>
+                      <th>Is superuser</th>
+                      <th>Email</th>
+                      <th>Position</th>
+                      <th class="w-9 align-items-center"></th>
+                      <th class="w-9 align-items-center"></th>
+                    </tr>
+
+                    {% for worker in worker_list %}
+                      <tr>
+                        <td>
+                          {{ worker.id }}
+                        </td>
+                        <td>
+                          <a href="{% url 'task_manager:worker-detail' pk=worker.id %}">
+                            {{ worker.username }}
+                          </a>
+                          {% if user == worker %} (Me){% endif %}
+                        </td>
+                        <td>
+                          {{ worker.first_name }}
+                        </td>
+                        <td>
+                          {{ worker.last_name }}
+                        </td>
+                        <td class="text-center">
+                          {{ worker.is_superuser }}
+                        </td>
+                        <td class="text-center">
+                          {{ worker.email }}
+                        </td>
+
+                        <td class="text-center">
+                          {{ worker.position }}
+                        </td>
+                        <td class="text-center">
+                          <a href="{% url 'task_manager:worker-update' pk=worker.id %}" class="btn btn-info mb-0">
+                            Update
+                          </a>
+                        </td>
+                        <td class="text-center">
+                          <a href="{% url 'task_manager:worker-delete' pk=worker.id %}" class="btn btn-danger mb-0">
+                            Delete
+                          </a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+
+                {% else %}
+                  <p>There are no workers in the task manager.</p>
+                {% endif %}
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center py-3 mt-n7">
+    {% include "includes/pagination.html" %}
+  </div>
+
+{% endblock %}
