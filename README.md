@@ -1,4 +1,4 @@
-"# it-company-task-manager"
+# It company task manager Project
 
 Django project for managing projects in IT company
 
