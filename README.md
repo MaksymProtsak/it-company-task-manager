@@ -4,7 +4,7 @@ Django project for managing projects in IT company
 
 ## Check it out!
 
-[Task manager project deployed to Render](http://it-company-task-manager.render.com)
+[Task manager project deployed to Render](https://it-company-task-manager-3mbc.onrender.com)
 
 ## Installation
 
